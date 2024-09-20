@@ -29,7 +29,9 @@ app.use(cors({
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-
+app.use("/",(req,res)=>{
+    res.send("hello world");
+});
 app.listen(process.env.PORT, () => {
     connectDB();
     console.log("app is running on port " + process.env.PORT);

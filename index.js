@@ -22,7 +22,7 @@ const connectDB = async () => {
 dotenv.config();
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000',"https://t-p-cell-blog-frontend.vercel.app/login"], // or specific frontend URL
+    origin: ['http://localhost:3000',"https://t-p-cell-blog-frontend.vercel.app"], // or specific frontend URL
     credentials: true // allow cookies from frontend
 }));
 // Add cors middleware

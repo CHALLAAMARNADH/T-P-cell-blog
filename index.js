@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors'); // Import cors package
+const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -8,31 +8,40 @@ const userRoute = require('./routes/users');
 const postRoute = require('./routes/posts');
 const commentRoute = require('./routes/comments');
 
-//database
+// Load environment variables
+dotenv.config();
+
+// Connect to MongoDB
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL)
-        console.log("database is connected successfully!");
+        await mongoose.connect(process.env.MONGO_URL);
+        console.log("Database connected successfully!");
     } catch (err) {
-        console.log(err);
+        console.error("Database connection failed:", err);
     }
-}
+};
 
-//middlewares
-dotenv.config();
+// Middleware for parsing JSON and handling CORS
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000',"https://t-p-cell-blog-frontend.vercel.app"], // or specific frontend URL
-    credentials: true // allow cookies from frontend
+    origin: ['http://localhost:3000', 'https://t-p-cell-blog-frontend.vercel.app'],
+    credentials: true
 }));
-// Add cors middleware
+
+// Routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-app.use("/",(req,res)=>{
-    res.send("hello world");
+app.use("/api/comments", commentRoute);
+
+// Default route
+app.get("/", (req, res) => {
+    res.send("Hello World");
 });
-app.listen(process.env.PORT, () => {
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
     connectDB();
-    console.log("app is running on port " + process.env.PORT);
+    console.log(`Server is running on port ${PORT}`);
 });

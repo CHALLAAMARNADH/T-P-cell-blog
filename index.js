@@ -24,9 +24,12 @@ const connectDB = async () => {
 // Middleware for parsing JSON and handling CORS
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://t-p-cell-blog-frontend.vercel.app'],
-    credentials: true
+    origin: ['http://localhost:3000', 'https://t-p-cell-blog-frontend.vercel.app'], // Include your frontend URL here
+    credentials: true, // Allow credentials like cookies, authorization headers, etc.
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
 }));
+
 
 // Routes
 app.use("/api/auth", authRoute);
